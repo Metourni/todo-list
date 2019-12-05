@@ -17,8 +17,12 @@ class CreateTodosTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('description')->nullable();
+
+            // 0 : unchecked ; 1 : checked
             $table->enum('status', array('0', '1'))->default('0');
             $table->date('due_date')->nullable();
+
+            $table->integer('order')->nullable();
 
             $table->bigInteger('user_id');
             $table->bigInteger('parent_todo_id')->nullable();

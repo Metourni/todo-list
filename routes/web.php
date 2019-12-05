@@ -19,4 +19,57 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('todo', 'TodoController');
+/*** ---- todoList  --- ***/
+Route::group(["as" => "todos.", "prefix" => "todo", "middleware" => "auth",], function () {
+
+    Route::get(
+        "/",
+        [
+            "as" => "index",
+            "uses" => "TodoController@index"
+        ]
+    );
+
+    Route::get(
+        "/create",
+        [
+            "as" => "create",
+            "uses" => "TodoController@create"
+        ]
+    );
+    Route::post(
+        "/store",
+        [
+            "as" => "store",
+            "uses" => "TodoController@store"
+        ]
+    );
+
+
+    Route::post(
+        "/update",
+        [
+            "as" => "update",
+            "uses" => "TodoController@update"
+        ]
+    );
+
+    Route::post(
+        "/chekoff",
+        [
+            "as" => "chekoff",
+            "uses" => "TodoController@chekoff"
+        ]
+    );
+
+
+    Route::delete(
+        "/delete/{id}",
+        [
+            "as" => "delete",
+            "uses" => "TodoController@destroy"
+        ]
+    );
+});
+/*** ---- End Todolist  --- ***/
+

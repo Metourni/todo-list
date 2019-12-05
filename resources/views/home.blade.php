@@ -19,7 +19,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-3">
-                                <a href="/todo/">
+                                <a href="{{route('todos.index')}}">
                                     <button class="btn btn-primary">Todo list</button>
                                 </a>
                             </div>

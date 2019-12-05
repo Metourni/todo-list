@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -66,8 +67,9 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if ($this->emailLogin($request)) {
+        if ($user = $this->emailLogin($request)) {
             //dd('good');
+            Auth::loginUsingId($user->id);
             return $this->sendLoginResponse($request);
         }
 
