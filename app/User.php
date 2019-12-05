@@ -42,4 +42,22 @@ class User extends Authenticatable
         return $this->hasMany(Todo::class, 'user_id')
             ->orderBy('order');
     }
+
+    public function hasPassedTasks()
+    {
+        $today = date("Y-m-d");
+
+        return Todo::where('user_id', $this->id)
+            ->where('due_dat', '>', $today)
+            ->count();
+    }
+
+    public function passedTasks()
+    {
+        $today = date("Y-m-d");
+
+        return Todo::where('user_id', $this->id)
+            ->where('due_dat', '>', $today)
+            ->get();
+    }
 }

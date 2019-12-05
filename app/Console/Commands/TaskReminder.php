@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Notifications\AccountConfirmation;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
 
 class TaskReminder extends Command
 {
@@ -11,7 +13,7 @@ class TaskReminder extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'remind:send';
 
     /**
      * The console command description.
@@ -37,6 +39,14 @@ class TaskReminder extends Command
      */
     public function handle()
     {
-        //
+
+        $users = Users::all();
+
+        foreach ($users as $user) {
+            if ($users->hasPassedTasks())
+                Notification::route("mail", $user->email)
+                    ->notify((new \App\Notifications\TaskReminder($user->passedTasks()))->delay(now()->addSeconds(10)));
+        }
+
     }
 }

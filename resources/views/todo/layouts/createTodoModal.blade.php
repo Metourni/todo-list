@@ -23,6 +23,11 @@
                         <label for="due_date" class="control-label">Due date:</label>
                         <input type="date" class="form-control" id="todo_due_date" name="due_date">
                     </div>
+
+                    <div class="form-group">
+                        <label for="todo_order" class="control-label">Order:</label>
+                        <input type="number" class="form-control" id="todo_order" name="order">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

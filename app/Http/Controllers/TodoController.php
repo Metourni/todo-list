@@ -120,6 +120,8 @@ class TodoController extends Controller
             'title' => 'required|max:255',
             'description' => 'max:255',
             'due_date' => 'max:255',
+            'order' => 'max:255',
+
         ]);
 
         $todo = Todo::where('id', $request->get('id', ''))->first();
@@ -130,6 +132,7 @@ class TodoController extends Controller
                 $todo->title = $request->get('title', '');
                 $todo->description = $request->get('description', '');
                 $todo->due_date = $request->get('due_date', '');
+                $todo->order = $request->get('order', '');
 
                 $result = $todo->save();
 

@@ -10,15 +10,16 @@ use Illuminate\Notifications\Notification;
 class TaskReminder extends Notification
 {
     use Queueable;
+    protected $todos;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($todo)
+    public function __construct($todos)
     {
-        $this->todo = $todo;
+        $this->todos = $todos;
     }
 
     /**
@@ -42,7 +43,7 @@ class TaskReminder extends Notification
     {
         return (new MailMessage)
             ->line('This is a notification message')
-            ->line('You have a task to to :' . $this->todo->title . ' the date was:' . $this->todo->due_date);
+            ->line('You have a ' . $this->todos->lenght() . 'tasks to do:');
     }
 
     /**

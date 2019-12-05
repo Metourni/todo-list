@@ -47,7 +47,7 @@
                                 @foreach($todos as $todo)
 
                                     <tr class="todo-item" id="{{$todo->id }}">
-                                        <td>{{$todo->order }}</td>
+                                        <td class="todo-item-order">{{$todo->order }}</td>
                                         <td data-toggle="{{$todo->id }}"
                                             class="todo-item-title">{{$todo->title}}</td>
                                         <td class="todo-item-description">{{$todo->description}}</td>
@@ -111,6 +111,8 @@
                 $("form.todo-form #todo_description").val("");
                 $("form.todo-form #todo_due_date").val("");
                 $("form.todo-form #todo_id").val("");
+                $("form.todo-form #todo_order").val("");
+
 
                 // Modal title
                 $('.modal .modal-title').text('New Todo');
@@ -129,12 +131,15 @@
                 let description = $(btn).parents('tr.todo-item').find('.todo-item-description')[0].innerText;
                 let due_date = $(btn).parents('tr.todo-item').find('.todo-item-due_date')[0].innerText;
                 let id = $(btn).parents('tr.todo-item').attr('id');
+                let order = $(btn).parents('tr.todo-item').find('.todo-item-order')[0].innerText;
+
 
                 // Model values
                 $("form.todo-form #todo_title").val(title);
                 $("form.todo-form #todo_description").val(description);
                 $("form.todo-form #todo_due_date").val(due_date);
                 $("form.todo-form #todo_id").val(id);
+                $("form.todo-form #order").val(order);
 
                 // Modal title and buttons
                 $('.modal .modal-title').text('Edit Todo');
@@ -180,6 +185,7 @@
                 let description = $("form.todo-form #todo_description").val();
                 let due_date = $("form.todo-form #todo_due_date").val();
                 let id = $("form.todo-form #todo_id").val();
+                let order = $("form.todo-form #todo_order").val();
 
                 let formData = new FormData();
                 formData.append('_token', csrf);
@@ -187,6 +193,7 @@
                 formData.append('title', title);
                 formData.append('description', description);
                 formData.append('due_date', due_date);
+                formData.append('order', order);
 
                 let req = sendRequest(csrf, formData, '{{route('todos.store')}}', 'post');
                 req.done(function (jqXHR, status) {
@@ -209,6 +216,7 @@
                 let title = $("form.todo-form #todo_title").val();
                 let description = $("form.todo-form #todo_description").val();
                 let due_date = $("form.todo-form #todo_due_date").val();
+                let order = $("form.todo-form #todo_order").val();
                 let id = $("form.todo-form #todo_id").val();
 
                 let formData = new FormData();
@@ -217,6 +225,7 @@
                 formData.append('title', title);
                 formData.append('description', description);
                 formData.append('due_date', due_date);
+                formData.append('order', order);
 
                 let req = sendRequest(csrf, formData, '{{route('todos.update')}}', 'post');
                 req.done(function (jqXHR, status) {
