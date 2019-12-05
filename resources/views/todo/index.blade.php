@@ -22,7 +22,7 @@
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Due Date</th>
-                                    <th>Acrion</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
