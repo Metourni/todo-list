@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,7 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            $this->username() => 'required|string',
+            $this->username() => 'required|string|email|exists:users,email',
             //'password' => 'required|string',
         ]);
     }
@@ -65,7 +66,8 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if ($this->attemptLogin($request)) {
+        if ($this->emailLogin($request)) {
+            //dd('good');
             return $this->sendLoginResponse($request);
         }
 
@@ -75,5 +77,11 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    protected function emailLogin($request)
+    {
+        $email = $request->get('email');
+        return User::where('email', $email)->firstOrFail();
     }
 }
