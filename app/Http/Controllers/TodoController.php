@@ -161,10 +161,8 @@ class TodoController extends Controller
 
         if ($todo) {
             if ($user->can('update', $todo)) {
-                $todo->title = $request->get('title', '');
-                $todo->description = $request->get('description', '');
+                $old_order = $todo->order;
                 $todo->due_date = $request->get('due_date', '');
-
                 $result = $todo->save();
 
                 if ($result) {
