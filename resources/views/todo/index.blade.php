@@ -53,7 +53,7 @@
                                         <td class="todo-item-description">{{$todo->description}}</td>
                                         <td class="todo-item-due_date">{{$todo->due_date}}</td>
                                         <td class="todo-item-status">
-                                            @if($todo->status)
+                                            @if($todo->isChecked())
                                                 <span class="text-success">Checked</span>
                                             @else
                                                 <span class="text-primary">Uncheked</span>
@@ -61,7 +61,7 @@
                                         </td>
                                         <td>
                                             <div class="row justify-content-end">
-                                                @if(!$todo->status)
+                                                @if(!$todo->isChecked())
                                                     <button type="button"
                                                             class="btn btn-md btn-success mx-2 chekoff-btn"
                                                             data-toggle="tooltip"
@@ -77,12 +77,6 @@
                                                         Edit
                                                     </button>
                                                 @endif
-                                                <button type="button"
-                                                        class="btn btn-md btn-danger mx-2 delete-btn"
-                                                        data-toggle="tooltip"
-                                                        data-original-title="Edit">
-                                                    Remove
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -163,7 +157,7 @@
                 let req = sendRequest(csrf, formData, '{{route('todos.chekoff')}}', 'post');
                 req.done(function (jqXHR, status) {
                     if (jqXHR.response) {
-                        //location.reload();
+                        location.reload();
                     } else {
                         console.log("fail#" + jqXHR.response);
                     }
@@ -171,19 +165,6 @@
                     console.log('fail : jqXHR = ' + jqXHR + '  status : ' + status);
                     console.log(jqXHR)
                 })
-
-            });
-
-            // delete action
-            $('.todo-item .delete-btn').on('click', function (event) {
-                event.preventDefault();
-                let btn = event.currentTarget;
-
-
-                // Values
-                let id = $(btn).parents('tr.todo-item').attr('id');
-
-                // make the request
 
             });
 

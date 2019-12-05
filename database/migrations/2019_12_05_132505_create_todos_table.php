@@ -19,7 +19,7 @@ class CreateTodosTable extends Migration
             $table->text('description')->nullable();
 
             // 0 : unchecked ; 1 : checked
-            $table->enum('status', array('0', '1'))->default('0');
+            $table->enum('status', array('UNCHECKED', 'CHECKED'))->default('UNCHECKED');
             $table->date('due_date')->nullable();
 
             $table->integer('order')->nullable();

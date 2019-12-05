@@ -42,7 +42,7 @@ class TodoController extends Controller
         $todo->title = $request->get('title', '');
         $todo->description = $request->get('description', '');
         $todo->due_date = $request->get('due_date', '');
-        $todo->status = 1;
+        $todo->status = 'UNCHECKED';
         $todo->user_id = $user->getAuthIdentifier();
 
         $todo->order = count($user->todos) + 1;
@@ -71,14 +71,13 @@ class TodoController extends Controller
     {
         // Validation
         $validatedData = $request->validate([
-            'id' => 'required|max:255',
+            'id' => 'required',
         ]);
 
         $todo = Todo::where('id', $request->get('id', ''))->first();
         if ($todo) {
-            $todo->status = 1;
+            $todo->status = 'CHECKED';
             $result = $todo->save();
-
             if ($result) {
                 if ($request->ajax()) {
                     return Response::json(['response' => 'non']);
