@@ -139,7 +139,7 @@
                 $("form.todo-form #todo_description").val(description);
                 $("form.todo-form #todo_due_date").val(due_date);
                 $("form.todo-form #todo_id").val(id);
-                $("form.todo-form #order").val(order);
+                $("form.todo-form #todo_order").val(order);
 
                 // Modal title and buttons
                 $('.modal .modal-title').text('Edit Todo');

@@ -45,7 +45,8 @@ class TodoController extends Controller
         $todo->status = 'UNCHECKED';
         $todo->user_id = $user->getAuthIdentifier();
 
-        $todo->order = count($user->todos) + 1;
+        // $todo->order = count($user->todos) + 1;
+        $todo->order = $request->get('order', '');
 
 
         $result = $todo->save();
