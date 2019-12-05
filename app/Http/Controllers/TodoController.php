@@ -75,16 +75,21 @@ class TodoController extends Controller
         ]);
 
         $todo = Todo::where('id', $request->get('id', ''))->first();
+        $user = Auth::user();
+
         if ($todo) {
-            $todo->status = 'CHECKED';
-            $result = $todo->save();
-            if ($result) {
-                if ($request->ajax()) {
-                    return Response::json(['response' => 'non']);
-                } else {
-                    return back()->with('success', 'The todo has been successfully added');
+            if ($user->can('update', $todo)) {
+                $todo->status = 'CHECKED';
+                $result = $todo->save();
+                if ($result) {
+                    if ($request->ajax()) {
+                        return Response::json(['response' => 'non']);
+                    } else {
+                        return back()->with('success', 'The todo has been successfully added');
+                    }
                 }
-            }
+            } else return abort(403);
+
         }
         return back()->with('errors', 'Can\'t add this todo');
     }
@@ -118,21 +123,59 @@ class TodoController extends Controller
         ]);
 
         $todo = Todo::where('id', $request->get('id', ''))->first();
+        $user = Auth::user();
+
         if ($todo) {
-            $todo->title = $request->get('title', '');
-            $todo->description = $request->get('description', '');
-            $todo->due_date = $request->get('due_date', '');
+            if ($user->can('update', $todo)) {
+                $todo->title = $request->get('title', '');
+                $todo->description = $request->get('description', '');
+                $todo->due_date = $request->get('due_date', '');
 
-            $result = $todo->save();
+                $result = $todo->save();
 
-            if ($result) {
-                if ($request->ajax()) {
-                    //dd('fd');
-                    return Response::json(['response' => $result]);
-                } else {
-                    return back()->with('success', 'The todo has been successfully added');
+                if ($result) {
+                    if ($request->ajax()) {
+                        //dd('fd');
+                        return Response::json(['response' => $result]);
+                    } else {
+                        return back()->with('success', 'The todo has been successfully added');
+                    }
                 }
-            }
+            } else return abort(403);
+        }
+
+        return abort(404);
+    }
+
+
+    public function reorder(Request $request)
+    {
+        // Validation
+        $validatedData = $request->validate([
+            'id' => 'required',
+            'order' => 'required',
+        ]);
+
+        $todo = Todo::where('id', $request->get('id', ''))->first();
+        $user = Auth::user();
+
+        if ($todo) {
+            if ($user->can('update', $todo)) {
+                $todo->title = $request->get('title', '');
+                $todo->description = $request->get('description', '');
+                $todo->due_date = $request->get('due_date', '');
+
+                $result = $todo->save();
+
+                if ($result) {
+                    if ($request->ajax()) {
+                        //dd('fd');
+                        return Response::json(['response' => $result]);
+                    } else {
+                        return back()->with('success', 'The todo has been successfully added');
+                    }
+                }
+            } else return abort(403);
         } else {
             return abort(404);
         }
